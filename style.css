@@ -1,5 +1,5 @@
 body {
-    background-color: beige;
+    background-color: lightgray;
 }
 
 #pageContent ul {
@@ -26,7 +26,7 @@ body {
    
     border-radius: 8px;
     object-fit: cover;
-     border: 2px dashed coral;
+     border: 2px solid #50b0ff;
     
     border-collapse: collapse;
    
@@ -35,38 +35,44 @@ body {
 
 
 #wrapper {
-    margin-left: 150px;
-    margin-right: 150px;
+    margin: 0 150px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
-    height: 3000px;
     background-color: white;
-    color:
+    color: #333333; /* Fixed missing color */
 }
 
 #header {
-    width: 99.8%;
-    height: 50px;
-    background: #FF8080;
-    border: solid #CCCCCC thin;
-    border-bottom: solid #f9e9a1 10px;
-    border-top: solid #2297a6 10px;
-    padding-top: 20px;
-    align-content: center;
-    text-align: center;
-    
+    display: flex;
+    justify-content: center;   /* centers the buttons */
+    align-items: center;
+    gap: 20px;                 /* space between buttons */
+    height: 70px;
+    background: #2297a6;       /* teal background */
+    border-bottom: 4px solid #1b7d88; /* darker accent line */
+    padding: 0 20px;
+
+    width: auto;      /* full width */
+    box-sizing: border-box;  /* includes padding in width calc */
 }
+
 
 a.button {
-    padding: 6px;
-    border: 1px outset buttonborder;
-    border-radius: 7px;
-    color: black;
-    background-color: azure;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: white;
+    color: #2297a6;
+    font-weight: bold;
     text-decoration: none;
-    margin: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background 0.3s, color 0.3s;
 }
 
-content {
+a.button:hover {
+    background-color: #2297a6;
+    color: white;
+}
+
+#content {
     float: left;
     width: 102%;
 }
@@ -81,13 +87,12 @@ content {
 
 #content h2 {
     color: #28A684;
-    color: #6b89bf;
     padding-left: 5px;
 }
 
 #content h3 {
     color: #28A684;
-    margin-left: 0px;
+    margin-left: 1px;
 }
 
 #pageContent {
@@ -105,16 +110,16 @@ content {
 
 #leftEdge {
     float: left;
-    border-left: solid #CCCCCC thin;
-    background: #2297a6;
+    border-left: solid #a1a1a1 thin;
+    background: #2297a69e;
     width: 1%;
     height: 2900px;
 }
 
 #rightEdge {
     float: right;
-    border-left: solid #CCCCCC thin;
-    background: #2297a6;
+    border-left: solid #a1a1a1 thin;
+    background: #2297a69e;
     width: 1%;
     height: 2900px;
 }
@@ -125,8 +130,8 @@ content {
     float: left;
     font-size: 12px;
     font-style: italic;
-    background: #f9e9a1;
-    border: solid #CCCCCC thin;
+    background: #2297a69e;
+    border: solid #a1a1a1 thin;
     border-top: none
 }
 
@@ -143,4 +148,22 @@ content {
     margin-left: 18px;
     width: 90%;
     margin-top: 20px;
+}
+
+.center-img {
+    display: block;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 50%;
+}
+.calendar-image {
+  margin-bottom: 50px; /* Space below the calendar image */
+}
+
+.task-popup-image {
+  margin-top: 50px; /* Space above the task popup image */
+ margin-bottom: 50px;
+}
+.three-dayview-image {
+    margin-top: 50px;
 }
