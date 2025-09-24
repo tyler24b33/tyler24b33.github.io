@@ -38,7 +38,7 @@ body {
     margin: 0 150px;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     background-color: white;
-    color: #333333; /* Fixed missing color */
+    color: #333333; 
 }
 
 #header {
@@ -60,15 +60,14 @@ a.button {
     padding: 8px 16px;
     border-radius: 6px;
     background-color: white;
-    color: #2297a6;
+    color: #033c44;
     font-weight: bold;
-    text-decoration: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.3);
     transition: background 0.3s, color 0.3s;
 }
 
 a.button:hover {
-    background-color: #2297a6;
+    background-color: #2252a6;
     color: white;
 }
 
@@ -86,12 +85,12 @@ a.button:hover {
 }
 
 #content h2 {
-    color: #28A684;
+    color: #2876a6;
     padding-left: 5px;
 }
 
 #content h3 {
-    color: #28A684;
+    color:  #2876a6;
     margin-left: 1px;
 }
 
@@ -157,13 +156,25 @@ a.button:hover {
     height: 50%;
 }
 .calendar-image {
-  margin-bottom: 50px; /* Space below the calendar image */
+  margin-bottom: 50px;
+  border-radius: 5px;
+  border: 5px solid blue; /* makes have solid blue border*/
+  display: block;         /* ensures border applies to <img> */
 }
 
 .task-popup-image {
+  width: 200px;   /* set the width */
+  height: 600px; 
   margin-top: 50px; /* Space above the task popup image */
- margin-bottom: 50px;
+  margin-bottom: 50px;
+  border-radius: 5px;
+  border: 5px solid blue; /* make it thick to test */
+  display: block;    
 }
 .three-dayview-image {
     margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+  border: 5px solid blue; /* make it thick to test */
+  display: block;    
 }
