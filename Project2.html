@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tyler Birmingham - Project 2: Tic Tac Toe</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/tylicon.ico">
+  <style>
+    /* --- Tic Tac Toe Styling --- */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #a1a1a1 thin;
+      margin: 0;
+    }
+
+    #wrapper {
+      width: 90%;
+      margin: auto;
+      max-width: 900px;
+    }
+
+    #header {
+      background-color:#2297a6;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .button {
+      background-color: white;
+      border: none;
+      color: #333;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-size: 1em;
+      margin: 3px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    .button:hover {
+      background-color: #a1a1a1;
+    }
+
+    #content {
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* --- Tic Tac Toe Game Area --- */
+    #menu, #game {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background-color: #2297a6;
+      color: white;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #4566a0;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .cell {
+      background-color: white;
+      border: 2px solid #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .cell:hover {
+      background-color: #e6e6e6;
+    }
+
+    #status, #scoreboard {
+      margin-top: 15px;
+      font-size: 1.1em;
+      color: #222;
+    }
+
+    #backBtn {
+      margin-top: 15px;
+      background-color: #2297a6;
+    }
+
+    #backBtn:hover {
+      background-color:  #4566a0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <!-- Header / Nav Bar -->
+    <div id="header">
+      <a href="index.html" class="button">Tyler Birmingham</a>
+      <a href="Course%20Projects.html" class="button">Course Projects</a>
+      <a href="hobbies.html" class="button">Hobbies</a>
+      <a href="Project2.html" class="button">Project 2 - Tic Tac Toe</a>
+        
+    </div>
+    
+
+    <!-- Main Content -->
+    <div id="content">
+      <h1>Project 2: Tic Tac Toe</h1>
+      <p>Play Tic Tac Toe in single-player or 2-player mode!</p>
+
+      <!-- TITLE SCREEN -->
+      <div id="menu">
+        <button id="playVsAI">Play vs Computer </button><br>
+        <button id="playCoop">Play 2 Player </button>
+      </div>
+
+      <!-- GAME SCREEN -->
+      <div id="game" style="display: none;">
+        <h2 id="modeTitle"></h2>
+        <div id="board"></div>
+        <div id="status"></div>
+        <div id="scoreboard">
+          Wins: <span id="wins">0</span> |
+          Losses: <span id="losses">0</span> |
+          Draws: <span id="draws">0</span>
+        </div>
+        <button id="resetBtn">Restart Game</button><br>
+        <button id="backBtn">Main Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ELEMENTS
+    const menu = document.getElementById('menu');
+    const game = document.getElementById('game');
+    const modeTitle = document.getElementById('modeTitle');
+    const board = document.getElementById('board');
+    const statusText = document.getElementById('status');
+    const resetBtn = document.getElementById('resetBtn');
+    const backBtn = document.getElementById('backBtn');
+    const winsEl = document.getElementById('wins');
+    const lossesEl = document.getElementById('losses');
+    const drawsEl = document.getElementById('draws');
+    const playVsAI = document.getElementById('playVsAI');
+    const playCoop = document.getElementById('playCoop');
+
+    let mode = "";
+    let cells = ["", "", "", "", "", "", "", "", ""];
+    let currentPlayer = "X";
+    let gameActive = true;
+    let wins = 0, losses = 0, draws = 0;
+      
+    // constants win patterns
+    const winPatterns = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    playVsAI.addEventListener('click', () => startGame("AI"));
+    playCoop.addEventListener('click', () => startGame("COOP"));
+    backBtn.addEventListener('click', () => {
+      game.style.display = "none";
+      menu.style.display = "block";
+      resetScores();
+    });
+      // start game function
+    function startGame(selectedMode) {
+      mode = selectedMode;
+      menu.style.display = "none";
+      game.style.display = "block";
+      modeTitle.textContent = (mode === "AI") ? "Player vs Computer 🤖" : "2 Player Mode 👥";
+      resetBoard();
+    }
+      // clears and resets board for next round
+    function resetBoard() {
+      cells = ["", "", "", "", "", "", "", "", ""];
+      currentPlayer = "X";
+      gameActive = true;
+      statusText.textContent = (mode === "AI") ? "Your turn (X)" : "Player X's turn";
+      createBoard();
+    }
+      // create tc tac toe board
+    function createBoard() {
+      board.innerHTML = '';
+      cells.forEach((cell, index) => {
+        const cellDiv = document.createElement('div');
+        cellDiv.classList.add('cell');
+        cellDiv.dataset.index = index;
+        cellDiv.textContent = cell;
+        cellDiv.addEventListener('click', handleMove);
+        board.appendChild(cellDiv);
+      });
+    }
+      // handle moves function
+    function handleMove(e) {
+      const index = e.target.dataset.index;
+      if (cells[index] !== "" || !gameActive) return;
+
+      cells[index] = currentPlayer;
+      e.target.textContent = currentPlayer;
+
+      if (checkWinner(currentPlayer)) {
+        if (mode === "AI") {
+          if (currentPlayer === "X") {
+            statusText.textContent = "🎉 You win!";
+            wins++;
+          } else {
+            statusText.textContent = "💻 Computer wins!";
+            losses++;
+          }
+        } else {
+          statusText.textContent = `🎉 Player ${currentPlayer} wins!`;
+        }
+        updateScore();
+        gameActive = false;
+        return;
+      }
+
+      if (isDraw()) {
+        statusText.textContent = "It's a draw!";
+        draws++;
+        updateScore();
+        gameActive = false;
+        return;
+      }
+
+      if (mode === "AI") {
+        if (currentPlayer === "X") {
+          currentPlayer = "O";
+          statusText.textContent = "Computer's turn...";
+          gameActive = false;
+          setTimeout(computerMove, 600);
+        }
+      } else {
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        statusText.textContent = `Player ${currentPlayer}'s turn`;
+      }
+    }
+      // function that handles computer moves
+      
+    function computerMove() {
+      let available = cells.map((val, i) => (val === "" ? i : null)).filter(i => i !== null);
+      if (available.length === 0) return;
+      let move = findBestMove("O") || findBestMove("X") || available[Math.floor(Math.random() * available.length)];
+      cells[move] = "O";
+      document.querySelector(`[data-index='${move}']`).textContent = "O";
+
+      if (checkWinner("O")) {
+        statusText.textContent = "💻 Computer wins!";
+        losses++;
+        updateScore();
+        gameActive = false;
+        return;
+      }
+
+      if (isDraw()) {
+        statusText.textContent = "It's a draw!";
+        draws++;
+        updateScore();
+        gameActive = false;
+        return;
+      }
+
+      currentPlayer = "X";
+      gameActive = true;
+      statusText.textContent = "Your turn (X)";
+    }
+     /// function to find the best moce
+    function findBestMove(player) {
+      for (let pattern of winPatterns) {
+        const [a, b, c] = pattern;
+        const values = [cells[a], cells[b], cells[c]];
+        if (values.filter(v => v === player).length === 2 && values.includes("")) {
+          return pattern[values.indexOf("")];
+        }
+      }
+      return null;
+    }
+      // function to check for Winner
+    function checkWinner(player) {
+      return winPatterns.some(pattern => {
+        const [a, b, c] = pattern;
+        return cells[a] === player && cells[b] === player && cells[c] === player;
+      });
+    }
+      // function to check draw
+    function isDraw() {
+      return cells.every(cell => cell !== "");
+    }
+      // fuction that adds cont to scores
+    function updateScore() {
+      winsEl.textContent = wins;
+      lossesEl.textContent = losses;
+      drawsEl.textContent = draws;
+    }
+      // function to cleare scores
+    function resetScores() {
+      wins = losses = draws = 0;
+      updateScore();
+    }
+
+    resetBtn.addEventListener('click', resetBoard);
+  </script>
+
+</body>
+</html>
